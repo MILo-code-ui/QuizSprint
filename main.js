@@ -7,8 +7,8 @@
    ========================================================= */
 
 const CONFIG = {
-  applicationId: "YOUR_BACK4APP_APPLICATION_ID",
-  javascriptKey: "YOUR_BACK4APP_JAVASCRIPT_KEY",
+  applicationId: "NLxjmmhCCJ4CHeNJ4LSn50lYdkrd6roRByZnnusc",
+  javascriptKey: "Vx2F8zhGtOEek9mshM0kXSP61Dsi6R5zK0547B3X",
   serverURL: "https://parseapi.back4app.com/"
 };
 
