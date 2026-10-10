@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6755e8">
+  <meta name="description" content="StudyFull — learn, practise, earn XP and grow together.">
+  <title>StudyFull — Learn. Play. Improve.</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/parse@5.3.0/dist/parse.min.js"></script>
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#" data-page="home">
+      <span class="brand-icon">⚡</span>
+      <span>StudyFull<small>Learn. Play. Improve.</small></span>
+    </a>
+    <div class="header-actions">
+      <span id="connectionStatus" class="connection"><i></i> Demo mode</span>
+      <button id="languageButton" class="icon-button" type="button">🌐 EN</button>
+      <button id="themeButton" class="icon-button" type="button" aria-label="Switch theme">🌙</button>
+      <button id="authHeaderButton" class="primary-button" type="button">Sign in</button>
+      <button id="logoutButton" class="secondary-button hidden" type="button">Log out</button>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="side-label" data-i18n="menu">MENU</div>
+      <nav class="side-nav" aria-label="Main navigation">
+        <button class="nav-button active" data-page="home">🏠 <span data-i18n="home">Home</span></button>
+        <button class="nav-button" data-page="study">📚 <span data-i18n="study">Study</span></button>
+        <button class="nav-button" data-page="quizzes">🧠 <span data-i18n="quizzes">Quizzes</span></button>
+        <button class="nav-button" data-page="classes">🏫 <span data-i18n="classes">Classes</span></button>
+        <button class="nav-button" data-page="leaderboard">🏆 <span data-i18n="leaderboard">Leaderboard</span></button>
+        <button class="nav-button" data-page="achievements">🏅 <span data-i18n="achievements">Achievements</span></button>
+        <button class="nav-button teacher-nav hidden" data-page="create">✏️ <span data-i18n="createQuiz">Create quiz</span></button>
+        <button class="nav-button" data-page="profile">👤 <span data-i18n="profile">My profile</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="mini-streak">🔥 <div><strong id="sidebarStreak">0 days</strong><small data-i18n="keepGoing">Keep it going!</small></div></div>
+        <div class="sidebar-note">✨ Every lesson counts.</div>
+      </div>
+    </aside>
+
+    <main id="mainContent" class="main-content">
+      <section id="page-home" class="page">
+        <div class="welcome-row">
+          <div>
+            <p class="eyebrow" data-i18n="welcomeBack">WELCOME TO YOUR LEARNING SPACE</p>
+            <h1><span data-i18n="hello">Hello</span>, <span id="welcomeName">Learner</span>! 👋</h1>
+            <p class="muted" data-i18n="welcomeSubtitle">Small steps today, big achievements tomorrow.</p>
+          </div>
+          <div class="date-pill" id="todayLabel">📅 Your learning journey</div>
+        </div>
+
+        <section class="hero-card">
+          <div class="hero-copy">
+            <span class="hero-tag" data-i18n="heroTag">YOUR NEXT ADVENTURE STARTS HERE</span>
+            <h2 data-i18n="heroTitle">Make every day a learning day.</h2>
+            <p data-i18n="heroText">Explore subjects, challenge yourself and celebrate every milestone.</p>
+            <button class="hero-button" type="button" data-page="study" data-i18n="exploreStudy">Explore study materials →</button>
+          </div>
+          <div class="hero-art" aria-hidden="true"><span>📚</span><span>✏️</span><span>🌟</span><div>XP +</div></div>
+        </section>
+
+        <div class="section-heading"><div><h2 data-i18n="yourProgress">Your progress</h2><p class="muted" data-i18n="progressSubtitle">Your learning journey at a glance.</p></div></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-icon purple">⚡</div><div><span data-i18n="totalXP">Total XP</span><strong id="statXP">0</strong><small data-i18n="xpEarned">Experience earned</small></div></article>
+          <article class="stat-card"><div class="stat-icon orange">🔥</div><div><span data-i18n="dailyStreak">Daily streak</span><strong id="statStreak">0 days</strong><small data-i18n="streakSubtitle">Days learning in a row</small></div></article>
+          <article class="stat-card"><div class="stat-icon blue">⏱️</div><div><span data-i18n="timeLearnt">Time learnt</span><strong id="statTime">0 min</strong><small data-i18n="timeSubtitle">Time spent on quizzes</small></div></article>
+          <article class="stat-card"><div class="stat-icon green">🏫</div><div><span data-i18n="numberClasses">My classes</span><strong id="statClasses">0</strong><small data-i18n="classesSubtitle">Classes joined</small></div></article>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel">
+            <div class="panel-heading"><div><h2 data-i18n="continueLearning">Continue learning</h2><p class="muted" data-i18n="continueSubtitle">Pick up a new challenge.</p></div><button class="text-button" type="button" data-page="quizzes" data-i18n="viewAll">View all →</button></div>
+            <div id="homeQuizList" class="quiz-list"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-heading"><div><h2 data-i18n="dailyGoal">Daily goal</h2><p class="muted" data-i18n="dailyGoalText">Build your learning habit.</p></div><span>🎯</span></div>
+            <div class="goal-number"><strong id="goalMinutes">0</strong><span>/ 15 min</span></div>
+            <div class="progress-track"><div id="goalProgress" class="progress-fill"></div></div>
+            <p class="muted small" id="goalMessage">Every minute makes a difference!</p>
+            <div class="daily-calendar" id="streakCalendar"></div>
+          </section>
+        </div>
+        <section class="panel badge-preview">
+          <div class="panel-heading"><div><h2 data-i18n="recentBadges">Your achievements</h2><p class="muted" data-i18n="badgesSubtitle">Celebrate your milestones.</p></div><button class="text-button" type="button" data-page="achievements" data-i18n="seeBadges">See badges →</button></div>
+          <div id="homeBadges" class="badge-row"></div>
+        </section>
+      </section>
+
+      <section id="page-study" class="page hidden">
+        <div class="page-heading"><p class="eyebrow">KẾT NỐI TRI THỨC</p><h1 data-i18n="studyTitle">Study materials 📚</h1><p class="muted" data-i18n="studySubtitle">Choose your grade, subject and topic.</p></div>
+        <div class="panel filters">
+          <label><span data-i18n="grade">Grade</span><select id="studyGrade"></select></label>
+          <label><span data-i18n="subject">Subject</span><select id="studySubject"></select></label>
+          <label><span data-i18n="topic">Topic</span><select id="studyTopic"></select></label>
+          <button class="primary-button" id="openStudyButton" type="button" data-i18n="openLesson">Open lesson</button>
+        </div>
+        <div id="studyCatalog" class="study-grid"></div>
+        <section id="studyDetail" class="panel hidden">
+          <button id="backToStudy" class="text-button" type="button">← <span data-i18n="backToTopics">Back to topics</span></button>
+          <div id="studyDetailContent"></div>
+        </section>
+        <p class="notice">📖 <span data-i18n="studyNotice">StudyFull provides learning guides and practice frameworks. Check your official textbook for the complete curriculum.</span></p>
+      </section>
+
+      <section id="page-quizzes" class="page hidden">
+        <div class="page-heading"><p class="eyebrow">PRACTISE • LEARN • GROW</p><h1 data-i18n="quizTitle">Quiz zone 🧠</h1><p class="muted" data-i18n="quizSubtitle">Test what you know and earn XP.</p></div>
+        <div class="quiz-toolbar">
+          <input id="quizSearch" type="search" placeholder="Search quizzes..." aria-label="Search quizzes">
+          <select id="quizGradeFilter" aria-label="Filter by grade"><option value="all">All grades</option></select>
+          <select id="quizSubjectFilter" aria-label="Filter by subject"><option value="all">All subjects</option></select>
+        </div>
+        <div id="quizCatalog" class="quiz-grid"></div>
+        <div id="quizEmpty" class="empty-state hidden">No quizzes found. Try a different search!</div>
+      </section>
+
+      <section id="page-classes" class="page hidden">
+        <div class="page-heading"><p class="eyebrow">LEARN TOGETHER</p><h1 data-i18n="classesTitle">Your classes 🏫</h1><p class="muted" data-i18n="classesSubtitle2">Join your classmates or manage your class.</p></div>
+        <div class="panel">
+          <h2 data-i18n="joinClass">Join a class</h2>
+          <form id="joinClassForm" class="inline-form"><input id="joinClassCode" placeholder="Enter class code" required maxlength="20"><button class="primary-button" type="submit" data-i18n="join">Join class</button></form>
+        </div>
+        <div id="teacherClassPanel" class="panel hidden">
+          <h2 data-i18n="createClass">Create a class</h2>
+          <form id="createClassForm" class="stack-form"><label><span data-i18n="className">Class name</span><input id="newClassName" required maxlength="70" placeholder="e.g. Grade 4 Maths"></label><button class="primary-button" type="submit" data-i18n="createClassButton">Create class</button></form>
+        </div>
+        <div class="section-heading"><h2 data-i18n="myClasses">My classes</h2></div>
+        <div id="classList" class="class-grid"></div>
+      </section>
+
+      <section id="page-leaderboard" class="page hidden">
+        <div class="page-heading"><p class="eyebrow">CELEBRATE YOUR PROGRESS</p><h1 data-i18n="leaderboardTitle">Leaderboard 🏆</h1><p class="muted" data-i18n="leaderboardSubtitle">A little progress each day adds up.</p></div>
+        <div class="panel leaderboard-panel"><div class="leaderboard-header"><span>#</span><span data-i18n="learner">Learner</span><span data-i18n="points">Points</span></div><div id="leaderboardList"></div></div>
+        <p class="muted small" data-i18n="leaderboardNote">Student accounts only are displayed on the leaderboard.</p>
+      </section>
+
+      <section id="page-achievements" class="page hidden">
+        <div class="page-heading"><p class="eyebrow">EVERY MILESTONE MATTERS</p><h1 data-i18n="achievementTitle">Achievements 🏅</h1><p class="muted" data-i18n="achievementSubtitle">Earn badges as you grow.</p></div>
+        <div id="achievementGrid" class="achievement-grid"></div>
+      </section>
+
+      <section id="page-create" class="page hidden">
+        <div class="page-heading"><p class="eyebrow">TEACHER WORKSPACE</p><h1 data-i18n="createTitle">Create a quiz ✏️</h1><p class="muted" data-i18n="createSubtitle">Build a quiz for your students.</p></div>
+        <form id="createQuizForm" class="panel stack-form">
+          <label><span data-i18n="quizName">Quiz name</span><input id="newQuizTitle" required maxlength="100" placeholder="e.g. Multiplication practice"></label>
+          <div class="form-row">
+            <label><span data-i18n="grade">Grade</span><select id="newQuizGrade"></select></label>
+            <label><span data-i18n="subject">Subject</span><select id="newQuizSubject"></select></label>
+          </div>
+          <label><span data-i18n="quizDescription">Description</span><textarea id="newQuizDescription" maxlength="300" rows="2" placeholder="What will students practise?"></textarea></label>
+          <div class="section-heading"><h2 data-i18n="questions">Questions</h2><button id="addQuestionButton" class="secondary-button" type="button">＋ <span data-i18n="addQuestion">Add question</span></button></div>
+          <div id="questionBuilder"></div>
+          <button class="primary-button full-button" type="submit" data-i18n="publishQuiz">Publish quiz</button>
+        </form>
+        <div class="panel"><h2 data-i18n="myCreatedQuizzes">My quizzes</h2><div id="teacherQuizList" class="quiz-list"></div></div>
+      </section>
+
+      <section id="page-profile" class="page hidden">
+        <div class="page-heading"><p class="eyebrow">YOUR PERSONAL LEARNING SPACE</p><h1 data-i18n="profileTitle">My profile 👤</h1><p class="muted" data-i18n="profileSubtitle">Your account and learning statistics.</p></div>
+        <div class="profile-layout">
+          <section class="panel profile-card"><div class="avatar" id="profileAvatar">🌟</div><h2 id="profileName">Guest</h2><span id="profileRole" class="role-pill">Student</span><p class="muted" id="profileId"></p><button id="editProfileButton" class="secondary-button" type="button" data-i18n="editProfile">Edit profile</button></section>
+          <section class="panel"><h2 data-i18n="learningStats">Learning statistics</h2><div class="profile-stat"><span data-i18n="totalXP">Total XP</span><strong id="profileXP">0</strong></div><div class="profile-stat"><span data-i18n="quizzesCompleted">Quizzes completed</span><strong id="profileCompleted">0</strong></div><div class="profile-stat"><span data-i18n="timeLearnt">Time learnt</span><strong id="profileTime">0 min</strong></div><div class="profile-stat"><span data-i18n="dailyStreak">Daily streak</span><strong id="profileStreak">0 days</strong></div><div class="profile-stat"><span data-i18n="accuracy">Accuracy</span><strong id="profileAccuracy">0%</strong></div></section>
+        </div>
+        <div class="panel"><h2 data-i18n="accountSettings">Account settings</h2><p class="muted small" data-i18n="accountSettingsText">Your username is used to sign in. Never share your password.</p><button id="changePasswordButton" class="secondary-button" type="button" data-i18n="changePassword">Change password</button></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="authModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="modal-card auth-card">
+      <button class="modal-close" type="button" data-close-modal="authModal" aria-label="Close">×</button>
+      <div class="auth-logo">⚡</div><h2 id="authTitle">Welcome to StudyFull!</h2><p id="authSubtitle" class="muted">Sign in or create your account to start learning.</p>
+      <div class="auth-tabs"><button id="loginTab" class="auth-tab active" type="button">Sign in</button><button id="signupTab" class="auth-tab" type="button">Create account</button></div>
+      <form id="authForm" class="stack-form">
+        <label><span data-i18n="username">Username</span><input id="authUsername" required minlength="3" maxlength="20" autocomplete="username" pattern="[A-Za-z0-9_.-]+" placeholder="Choose a username"></label>
+        <label><span data-i18n="password">Password</span><input id="authPassword" type="password" required minlength="8" maxlength="128" autocomplete="current-password" placeholder="At least 8 characters"></label>
+        <div id="signupExtra" class="hidden">
+          <label><span data-i18n="displayName">Display name</span><input id="authDisplayName" maxlength="40" placeholder="e.g. Nguyễn Minh Anh"></label>
+          <label><span data-i18n="role">Account type</span><select id="authRole"><option value="student">Student</option><option value="teacher">Teacher</option></select></label>
+        </div>
+        <button id="authSubmitButton" class="primary-button full-button" type="submit">Sign in</button>
+      </form>
+      <p class="small muted auth-footnote">No email required. Use a unique password that you don't use on other websites.</p>
+    </div>
+  </div>
+
+  <div id="quizModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="quizModalTitle">
+    <div class="modal-card quiz-modal-card">
+      <button class="modal-close" type="button" data-close-modal="quizModal" aria-label="Close">×</button>
+      <div id="quizPlayContent"></div>
+    </div>
+  </div>
+
+  <div id="editModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+    <div class="modal-card">
+      <button class="modal-close" type="button" data-close-modal="editModal" aria-label="Close">×</button>
+      <h2 id="editModalTitle">Edit profile</h2>
+      <form id="editProfileForm" class="stack-form">
+        <label><span data-i18n="displayName">Display name</span><input id="editDisplayName" maxlength="40" required></label>
+        <button class="primary-button" type="submit" data-i18n="saveChanges">Save changes</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="passwordModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="passwordModalTitle">
+    <div class="modal-card">
+      <button class="modal-close" type="button" data-close-modal="passwordModal" aria-label="Close">×</button>
+      <h2 id="passwordModalTitle">Change password</h2>
+      <form id="passwordForm" class="stack-form">
+        <label><span data-i18n="currentPassword">Current password</span><input id="currentPassword" type="password" required autocomplete="current-password"></label>
+        <label><span data-i18n="newPassword">New password</span><input id="newPassword" type="password" minlength="8" maxlength="128" required autocomplete="new-password"></label>
+        <button class="primary-button" type="submit" data-i18n="changePassword">Change password</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="classModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="classModalTitle">
+    <div class="modal-card">
+      <button class="modal-close" type="button" data-close-modal="classModal" aria-label="Close">×</button>
+      <h2 id="classModalTitle">Class details</h2>
+      <div id="classModalContent"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer"><span>⚡ StudyFull</span><span>Learn. Play. Improve. 💜</span></footer>
+</body>
+</html>
