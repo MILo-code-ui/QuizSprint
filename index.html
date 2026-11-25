@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizSprint | Learn & Compete</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+</head>
+<body>
+  <header class="navbar">
+    <a href="#" class="brand">⚡ QuizSprint</a>
+    <nav>
+      <button id="langBtn">VI</button>
+      <button id="themeBtn">☀</button>
+      <button id="loginBtn">Login</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">LEARN • COMPETE • GROW</div>
+        <h1>Your learning.<br>Your sprint.</h1>
+        <p>Learn subjects, challenge yourself and compete.</p>
+        <button class="primary" id="startBtn">Start learning →</button>
+      </div>
+      <div class="hero-icon">⚡</div>
+    </section>
+
+    <section id="dashboard">
+      <div class="section-header">
+        <div><h2 data-i18n="dashboard">Dashboard</h2><p id="welcomeUser">Welcome to QuizSprint</p></div>
+        <div class="points-badge">⚡ <span id="points">0</span> SprintPoints</div>
+      </div>
+      <div class="stats">
+        <article class="stat"><div>⚡</div><small>SprintPoints</small><h2 id="statPoints">0</h2></article>
+        <article class="stat"><div>📚</div><small>Completed quizzes</small><h2 id="statQuizzes">0</h2></article>
+        <article class="stat"><div>🏆</div><small>Global rank</small><h2 id="statRank">—</h2></article>
+      </div>
+    </section>
+
+    <section id="study">
+      <div class="section-header">
+        <div><h2 data-i18n="study">Study by grade</h2><p data-i18n="studyText">Choose your grade and subject.</p></div>
+      </div>
+      <div class="filters">
+        <select id="gradeSelect"></select>
+        <select id="subjectSelect"></select>
+      </div>
+      <div id="studyContent" class="grid"></div>
+    </section>
+
+    <section id="quizSection">
+      <div class="section-header">
+        <div><h2 data-i18n="quizHub">Quiz hub</h2><p data-i18n="quizText">Explore and create quizzes.</p></div>
+        <button class="primary" id="createQuizBtn">+ Create quiz</button>
+      </div>
+      <div id="quizList" class="grid"></div>
+    </section>
+
+    <section id="classSection">
+      <div class="section-header">
+        <div><h2 data-i18n="classes">Classes</h2><p data-i18n="classText">Create a class or join one.</p></div>
+      </div>
+      <div class="card class-controls">
+        <input id="className" placeholder="Class name">
+        <button class="primary" id="createClassBtn">Create class</button>
+        <input id="joinCode" placeholder="Join code">
+        <button id="joinClassBtn">Join class</button>
+      </div>
+      <div id="classList" class="grid"></div>
+    </section>
+
+    <section id="leaderboardSection">
+      <div class="section-header">
+        <div><h2 data-i18n="leaderboard">Leaderboard</h2><p data-i18n="leaderText">Compare SprintPoints.</p></div>
+      </div>
+      <div class="tabs">
+        <button class="tab active" id="globalTab">Global</button>
+        <button class="tab" id="classTab">Class</button>
+      </div>
+      <div id="leaderboard" class="card"></div>
+    </section>
+
+    <section id="profileSection">
+      <div class="section-header">
+        <div><h2 data-i18n="profile">Profile</h2><p data-i18n="profileText">Your account.</p></div>
+      </div>
+      <div id="profile" class="card"></div>
+    </section>
+  </main>
+
+  <footer>QuizSprint · Learn. Compete. Grow.</footer>
+
+  <dialog id="accountDialog">
+    <div class="dialog-header">
+      <h2 id="accountTitle">Login</h2>
+      <button class="close" data-close="accountDialog">✕</button>
+    </div>
+    <div class="dialog-body">
+      <input id="username" placeholder="Username">
+      <input id="password" type="password" placeholder="Password">
+      <div class="role-select">
+        <label><input type="radio" name="role" value="Student" checked> Student</label>
+        <label><input type="radio" name="role" value="Teacher"> Teacher</label>
+      </div>
+      <button class="primary full" id="submitAccount">Login</button>
+      <button class="text-button" id="switchAccount">Create account</button>
+      <p id="accountMessage"></p>
+    </div>
+  </dialog>
+
+  <dialog id="quizDialog">
+    <div class="dialog-header">
+      <h2>Create quiz</h2>
+      <button class="close" data-close="quizDialog">✕</button>
+    </div>
+    <div class="dialog-body">
+      <input id="newQuizTitle" placeholder="Quiz title">
+      <select id="newQuizGrade"></select>
+      <select id="newQuizSubject"></select>
+      <textarea id="newQuizDescription" placeholder="Description"></textarea>
+      <div id="questionBuilder"></div>
+      <button id="addQuestionBtn">+ Add question</button>
+      <button class="primary full" id="publishQuizBtn">Publish quiz</button>
+      <p id="quizMessage"></p>
+    </div>
+  </dialog>
+
+  <dialog id="playDialog">
+    <div class="dialog-header">
+      <h2 id="playTitle">Quiz</h2>
+      <button class="close" data-close="playDialog">✕</button>
+    </div>
+    <div class="dialog-body" id="playContent"></div>
+  </dialog>
+
+  <dialog id="classDialog">
+    <div class="dialog-header">
+      <h2 id="classDialogTitle">Class</h2>
+      <button class="close" data-close="classDialog">✕</button>
+    </div>
+    <div class="dialog-body" id="classDialogContent"></div>
+  </dialog>
+
+  <script src="main.js"></script>
+</body>
+</html>
+  
